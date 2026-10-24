@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Override any of these in the host app to translate or reword the notification. -->
+    <string name="apkupdater_channel_name">App updates</string>
+    <string name="apkupdater_ready_title">Update downloaded</string>
+    <string name="apkupdater_ready_text">Tap to install</string>
+    <string name="apkupdater_permission_title">Update ready</string>
+    <string name="apkupdater_permission_text">Allow installing from this app to continue</string>
+</resources>

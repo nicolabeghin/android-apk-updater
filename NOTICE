@@ -1,0 +1,10 @@
+android-apk-updater
+Copyright 2026 Nicola Beghin
+
+This repository is a fork of https://github.com/lazydroid/auto-update-apk-client
+(Auto-Update-APK client, Copyright (c) 2012 lenik terenin, Apache License 2.0).
+
+The original Eclipse-era sources remain in this repository's git history. The code in the
+current tree is a rewrite against the android-apk-updater server; it keeps the original's
+update-check protocol (POST pkgname/version/md5, reply "have update" + URL or "no update")
+so existing deployments can switch by changing one URL.
