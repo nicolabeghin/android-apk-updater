@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -65,6 +66,7 @@ public final class ApkUpdater {
     private final OkHttpClient client;
     private final boolean wifiOnly;
     private final int notificationIcon;
+    private final int notificationImportance;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler main = new Handler(Looper.getMainLooper());
 
@@ -77,6 +79,7 @@ public final class ApkUpdater {
         }
         this.wifiOnly = b.wifiOnly;
         this.notificationIcon = b.notificationIcon;
+        this.notificationImportance = b.notificationImportance;
     }
 
     /** The client the host app configured, or the default one when it did not (or has not built an updater yet). */
@@ -127,6 +130,7 @@ public final class ApkUpdater {
                 .setInputData(new Data.Builder()
                         .putString(UpdateWorker.KEY_BASE_URL, baseUrl)
                         .putInt(UpdateWorker.KEY_ICON, notificationIcon)
+                        .putInt(UpdateWorker.KEY_IMPORTANCE, notificationImportance)
                         .build())
                 .build();
         WorkManager.getInstance(context)
@@ -145,6 +149,7 @@ public final class ApkUpdater {
         private OkHttpClient client;
         private boolean wifiOnly = true;
         private int notificationIcon = android.R.drawable.stat_sys_download_done;
+        private int notificationImportance = NotificationManagerCompat.IMPORTANCE_DEFAULT;
 
         public Builder(@NonNull Context context) {
             this.context = context;
@@ -171,6 +176,17 @@ public final class ApkUpdater {
         /** Small notification icon; it should be a monochrome drawable. Defaults to a system download icon. */
         public Builder notificationIcon(int drawableRes) {
             this.notificationIcon = drawableRes;
+            return this;
+        }
+
+        /**
+         * Importance of the "update downloaded" notification, a {@code NotificationManagerCompat.IMPORTANCE_*} value
+         * (default {@code IMPORTANCE_DEFAULT}: sound, no heads-up popup; {@code IMPORTANCE_HIGH} pops up over the
+         * running app). Android fixes a channel's importance when it is first created and the user may change it in
+         * system settings, so this only applies to installs that have not created the channel yet.
+         */
+        public Builder notificationImportance(int importance) {
+            this.notificationImportance = importance;
             return this;
         }
 

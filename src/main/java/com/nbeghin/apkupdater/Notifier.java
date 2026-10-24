@@ -25,7 +25,7 @@ final class Notifier {
     }
 
     /** Returns false (and posts nothing) when the user has notifications switched off or never granted them. */
-    static boolean showReady(Context context, File apk, int smallIcon) {
+    static boolean showReady(Context context, File apk, int smallIcon, int importance) {
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         if (!manager.areNotificationsEnabled()) {
             return false;
@@ -33,7 +33,7 @@ final class Notifier {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager nm = context.getSystemService(NotificationManager.class);
             nm.createNotificationChannel(new NotificationChannel(
-                    CHANNEL_ID, context.getString(R.string.apkupdater_channel_name), NotificationManager.IMPORTANCE_DEFAULT));
+                    CHANNEL_ID, context.getString(R.string.apkupdater_channel_name), importance));
         }
         boolean canInstall = Installer.canInstall(context);
         PendingIntent tap = PendingIntent.getActivity(

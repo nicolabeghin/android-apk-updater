@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -14,6 +15,7 @@ public final class UpdateWorker extends Worker {
 
     static final String KEY_BASE_URL = "base_url";
     static final String KEY_ICON = "icon";
+    static final String KEY_IMPORTANCE = "importance";
     private static final String TAG = "ApkUpdater";
 
     public UpdateWorker(@NonNull Context context, @NonNull WorkerParameters params) {
@@ -34,7 +36,8 @@ public final class UpdateWorker extends Worker {
                     new UpdateChecker(getApplicationContext(), baseUrl, ApkUpdater.clientForWorker()).run(null);
             if (outcome.apk != null) {
                 int icon = getInputData().getInt(KEY_ICON, android.R.drawable.stat_sys_download_done);
-                Notifier.showReady(getApplicationContext(), outcome.apk, icon);
+                int importance = getInputData().getInt(KEY_IMPORTANCE, NotificationManagerCompat.IMPORTANCE_DEFAULT);
+                Notifier.showReady(getApplicationContext(), outcome.apk, icon, importance);
             }
             return Result.success();
         } catch (UpdateException e) {
