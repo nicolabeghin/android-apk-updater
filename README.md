@@ -86,8 +86,9 @@ offers a build whose `versionCode` is higher than the one installed.
   automatically (on `schedule`, `checkNow` and each scheduled run).
 - Installing uses `ACTION_INSTALL_PACKAGE` on Android 7+ and a world-readable `file://` APK on older versions, whose
   installer rejects `content://` URIs.
-- The library declares its own `FileProvider` (`<applicationId>.apkupdater.fileprovider`), so it doesn't clash with one
-  you already have.
+- The library declares its own `FileProvider` subclass (`ApkUpdaterFileProvider`, authority
+  `<applicationId>.apkupdater.fileprovider`), so it doesn't clash with one you already have (the manifest merger keys
+  providers by class name, which is why a subclass is needed).
 
 ## Migrating from Auto-Update-APK
 

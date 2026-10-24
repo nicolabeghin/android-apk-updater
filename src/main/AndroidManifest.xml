@@ -9,9 +9,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application>
-        <!-- Own authority so it never collides with a FileProvider the host app already declares. -->
+        <!-- Own class and authority so it never collides with a FileProvider the host app already declares. -->
         <provider
-            android:name="androidx.core.content.FileProvider"
+            android:name="com.nbeghin.apkupdater.ApkUpdaterFileProvider"
             android:authorities="${applicationId}.apkupdater.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
