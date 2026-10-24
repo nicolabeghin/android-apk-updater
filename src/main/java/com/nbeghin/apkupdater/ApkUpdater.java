@@ -56,6 +56,10 @@ public final class ApkUpdater {
     // The server's own guidance for clients is "no more often than hourly".
     private static final long MIN_INTERVAL_MS = TimeUnit.HOURS.toMillis(1);
 
+    // The scheduled worker can start in a process where only Application.onCreate has run, and WorkManager input data
+    // cannot carry a client, so the client given to the Builder is remembered here for the worker to use.
+    private static volatile OkHttpClient sharedClient;
+
     private final Context context;
     private final String baseUrl;
     private final OkHttpClient client;
@@ -68,8 +72,17 @@ public final class ApkUpdater {
         this.context = b.context.getApplicationContext();
         this.baseUrl = b.baseUrl;
         this.client = b.client != null ? b.client : defaultClient();
+        if (b.client != null) {
+            sharedClient = b.client;
+        }
         this.wifiOnly = b.wifiOnly;
         this.notificationIcon = b.notificationIcon;
+    }
+
+    /** The client the host app configured, or the default one when it did not (or has not built an updater yet). */
+    static OkHttpClient clientForWorker() {
+        OkHttpClient shared = sharedClient;
+        return shared != null ? shared : defaultClient();
     }
 
     static OkHttpClient defaultClient() {
@@ -85,6 +98,7 @@ public final class ApkUpdater {
         main.post(listener::onChecking);
         executor.execute(() -> {
             try {
+                StaleUpdate.dropIfInstalled(context);
                 UpdateChecker.Outcome outcome = new UpdateChecker(context, baseUrl, client)
                         .run(() -> main.post(listener::onDownloading));
                 if (outcome.apk != null) {
@@ -117,6 +131,8 @@ public final class ApkUpdater {
                 .build();
         WorkManager.getInstance(context)
                 .enqueueUniquePeriodicWork(WORK_NAME, ExistingPeriodicWorkPolicy.UPDATE, request);
+        // Right after an update the "update downloaded" notification and APK are obsolete; do not wait for the next period.
+        executor.execute(() -> StaleUpdate.dropIfInstalled(context));
     }
 
     public void cancelSchedule() {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apkupdater_channel_name">Actualizaciones de la aplicación</string>
+    <string name="apkupdater_ready_title">Actualización descargada</string>
+    <string name="apkupdater_ready_text">Toca para instalar</string>
+    <string name="apkupdater_permission_title">Actualización lista</string>
+    <string name="apkupdater_permission_text">Permite instalar desde esta aplicación para continuar</string>
+    <string name="apkupdater_checking">Buscando actualizaciones…</string>
+    <string name="apkupdater_no_update">No hay actualizaciones disponibles</string>
+    <string name="apkupdater_downloading">Actualización disponible. Descargando…</string>
+    <string name="apkupdater_ready_toast">Actualización descargada</string>
+    <string name="apkupdater_error">Error al buscar actualizaciones</string>
+</resources>

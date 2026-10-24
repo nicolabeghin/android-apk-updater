@@ -20,6 +20,10 @@ final class Notifier {
     private Notifier() {
     }
 
+    static void cancel(Context context) {
+        NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID);
+    }
+
     /** Returns false (and posts nothing) when the user has notifications switched off or never granted them. */
     static boolean showReady(Context context, File apk, int smallIcon) {
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);

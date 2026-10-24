@@ -75,7 +75,17 @@ offers a build whose `versionCode` is higher than the one installed.
   but cannot notify. `checkNow` does not need it.
 - On Android 8+ the user must allow *Install unknown apps* for your app. When it isn't allowed, the notification
   opens that Settings page instead of the installer (`Installer.canInstall(context)` tells you which case applies).
-- Notification text comes from string resources (`apkupdater_*`); override them in your app to translate.
+- Notification and message text comes from string resources (`apkupdater_*`). English is the default; Italian,
+  Chinese, Hindi, Spanish, French and Arabic are included (machine-translated, native review welcome). Override any
+  string in your app to reword it. For your own UI, `apkupdater_checking`, `apkupdater_no_update`,
+  `apkupdater_downloading`, `apkupdater_ready_toast` and `apkupdater_error` match the `Listener` callbacks
+  (reference them as `com.nbeghin.apkupdater.R.string.*`).
+- A custom `okHttpClient(...)` is also used by the scheduled worker, provided you build the `ApkUpdater` in
+  `Application.onCreate` (WorkManager can start the worker before any activity exists).
+- After the app has been updated, the leftover APK and the "update downloaded" notification are removed
+  automatically (on `schedule`, `checkNow` and each scheduled run).
+- Installing uses `ACTION_INSTALL_PACKAGE` on Android 7+ and a world-readable `file://` APK on older versions, whose
+  installer rejects `content://` URIs.
 - The library declares its own `FileProvider` (`<applicationId>.apkupdater.fileprovider`), so it doesn't clash with one
   you already have.
 
@@ -100,7 +110,7 @@ until you ship one build with the new URL; after that, updates come from here.
   device-owner apps) are not implemented.
 - App-bundle installs have no single APK to hash, so the reported MD5 never matches an upload; the server then
   decides on `versionCode` alone, which is correct, but it means MD5-keyed distribution policies don't apply.
-- The pure logic (reply parsing, MD5) has unit tests. The Android parts have not yet been run on a device.
+- The pure logic (reply parsing, MD5, translation key consistency) has unit tests. The Android parts have not yet been run on a device.
 
 ## Build
 

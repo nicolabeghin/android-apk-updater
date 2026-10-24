@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apkupdater_channel_name">Mises à jour de l\'application</string>
+    <string name="apkupdater_ready_title">Mise à jour téléchargée</string>
+    <string name="apkupdater_ready_text">Appuyez pour installer</string>
+    <string name="apkupdater_permission_title">Mise à jour prête</string>
+    <string name="apkupdater_permission_text">Autorisez l\'installation depuis cette application pour continuer</string>
+    <string name="apkupdater_checking">Recherche de mises à jour…</string>
+    <string name="apkupdater_no_update">Aucune mise à jour disponible</string>
+    <string name="apkupdater_downloading">Mise à jour disponible. Téléchargement en cours…</string>
+    <string name="apkupdater_ready_toast">Mise à jour téléchargée</string>
+    <string name="apkupdater_error">Échec de la recherche de mises à jour</string>
+</resources>

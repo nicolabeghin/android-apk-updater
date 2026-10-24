@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apkupdater_channel_name">ऐप अपडेट</string>
+    <string name="apkupdater_ready_title">अपडेट डाउनलोड हो गया</string>
+    <string name="apkupdater_ready_text">इंस्टॉल करने के लिए टैप करें</string>
+    <string name="apkupdater_permission_title">अपडेट तैयार है</string>
+    <string name="apkupdater_permission_text">जारी रखने के लिए इस ऐप से इंस्टॉल करने की अनुमति दें</string>
+    <string name="apkupdater_checking">अपडेट की जाँच हो रही है…</string>
+    <string name="apkupdater_no_update">कोई अपडेट उपलब्ध नहीं है</string>
+    <string name="apkupdater_downloading">अपडेट उपलब्ध है। डाउनलोड हो रहा है…</string>
+    <string name="apkupdater_ready_toast">अपडेट डाउनलोड हो गया</string>
+    <string name="apkupdater_error">अपडेट की जाँच विफल रही</string>
+</resources>

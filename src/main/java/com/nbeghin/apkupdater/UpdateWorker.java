@@ -29,8 +29,9 @@ public final class UpdateWorker extends Worker {
             return Result.failure();
         }
         try {
+            StaleUpdate.dropIfInstalled(getApplicationContext());
             UpdateChecker.Outcome outcome =
-                    new UpdateChecker(getApplicationContext(), baseUrl, ApkUpdater.defaultClient()).run(null);
+                    new UpdateChecker(getApplicationContext(), baseUrl, ApkUpdater.clientForWorker()).run(null);
             if (outcome.apk != null) {
                 int icon = getInputData().getInt(KEY_ICON, android.R.drawable.stat_sys_download_done);
                 Notifier.showReady(getApplicationContext(), outcome.apk, icon);

@@ -30,6 +30,11 @@ final class InstalledApk {
         this.md5 = md5;
     }
 
+    @SuppressWarnings("deprecation")
+    static long versionOf(PackageInfo info) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? info.getLongVersionCode() : info.versionCode;
+    }
+
     static InstalledApk read(Context context) throws IOException {
         String pkg = context.getPackageName();
         PackageInfo info;
@@ -38,7 +43,7 @@ final class InstalledApk {
         } catch (PackageManager.NameNotFoundException e) {
             throw new IOException("Cannot read own package info for " + pkg, e);
         }
-        long version = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? info.getLongVersionCode() : info.versionCode;
+        long version = versionOf(info);
 
         File apk = new File(context.getApplicationInfo().sourceDir);
         String stamp = apk.length() + ":" + apk.lastModified();

@@ -1,6 +1,7 @@
 package com.nbeghin.apkupdater;
 
 import android.content.Context;
+import android.os.Build;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,6 +31,9 @@ final class UpdateChecker {
             this.apk = apk;
         }
     }
+
+    /** Matches {@code res/xml/apkupdater_paths.xml}. */
+    static final String DOWNLOAD_DIR = "apkupdater";
 
     interface Progress {
         void onDownloading();
@@ -77,7 +81,7 @@ final class UpdateChecker {
     }
 
     private File download(UpdateCheckResult result) throws IOException {
-        File dir = new File(context.getFilesDir(), "apkupdater");
+        File dir = new File(context.getFilesDir(), DOWNLOAD_DIR);
         if (!dir.isDirectory() && !dir.mkdirs()) {
             throw new IOException("Cannot create " + dir);
         }
@@ -87,6 +91,7 @@ final class UpdateChecker {
         // A previous run may already have fetched exactly this build.
         if (expected != null && target.isFile() && expected.equals(Md5.hex(target))) {
             deleteOthers(dir, target);
+            makeReadableForLegacyInstaller(dir, target);
             return target;
         }
 
@@ -124,7 +129,16 @@ final class UpdateChecker {
             throw new IOException("Cannot move " + part + " to " + target);
         }
         deleteOthers(dir, target);
+        makeReadableForLegacyInstaller(dir, target);
         return target;
+    }
+
+    /** Before Android 7 the system installer opens the file by path as another user, so it must be world-readable. */
+    private static void makeReadableForLegacyInstaller(File dir, File apk) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            dir.setExecutable(true, false);
+            apk.setReadable(true, false);
+        }
     }
 
     /** Keeps the directory to a single APK so old downloads do not pile up. */

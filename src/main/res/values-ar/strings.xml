@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apkupdater_channel_name">تحديثات التطبيق</string>
+    <string name="apkupdater_ready_title">تم تنزيل التحديث</string>
+    <string name="apkupdater_ready_text">انقر للتثبيت</string>
+    <string name="apkupdater_permission_title">التحديث جاهز</string>
+    <string name="apkupdater_permission_text">اسمح بالتثبيت من هذا التطبيق للمتابعة</string>
+    <string name="apkupdater_checking">جارٍ البحث عن تحديثات…</string>
+    <string name="apkupdater_no_update">لا يوجد تحديث متاح</string>
+    <string name="apkupdater_downloading">يتوفر تحديث. جارٍ التنزيل…</string>
+    <string name="apkupdater_ready_toast">تم تنزيل التحديث</string>
+    <string name="apkupdater_error">فشل البحث عن تحديثات</string>
+</resources>

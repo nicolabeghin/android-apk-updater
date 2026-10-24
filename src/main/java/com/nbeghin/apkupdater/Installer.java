@@ -35,9 +35,17 @@ public final class Installer {
     }
 
     /** Intent that opens the system installer for {@code apk}. Check {@link #canInstall} first. */
+    @SuppressWarnings("deprecation")
     public static Intent installIntent(Context context, File apk) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            // The pre-N installer cannot read content:// URIs ("parse error"); UpdateChecker made the file world-readable.
+            return new Intent(Intent.ACTION_VIEW)
+                    .setDataAndType(Uri.fromFile(apk), APK_MIME)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".apkupdater.fileprovider", apk);
-        return new Intent(Intent.ACTION_VIEW)
+        // ACTION_INSTALL_PACKAGE is what the install flow was verified with on API 34 (deprecated since 29, still supported).
+        return new Intent(Intent.ACTION_INSTALL_PACKAGE)
                 .setDataAndType(uri, APK_MIME)
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
