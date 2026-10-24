@@ -41,7 +41,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.nicolabeghin'
                 artifactId = 'android-apk-updater'
-                version = '0.1.2'
+                version = '0.1.3'
             }
         }
     }

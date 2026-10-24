@@ -80,6 +80,9 @@ offers a build whose `versionCode` is higher than the one installed.
   string in your app to reword it. For your own UI, `apkupdater_checking`, `apkupdater_no_update`,
   `apkupdater_downloading`, `apkupdater_ready_toast` and `apkupdater_error` match the `Listener` callbacks
   (reference them as `com.nbeghin.apkupdater.R.string.*`).
+- `notificationImportance(NotificationManagerCompat.IMPORTANCE_HIGH)` makes the notification pop up as a heads-up;
+  the default is `IMPORTANCE_DEFAULT`. Android fixes this when the channel is first created (and users can change it
+  in system settings), so a later change only reaches installs that never posted the notification.
 - A custom `okHttpClient(...)` is also used by the scheduled worker, provided you build the `ApkUpdater` in
   `Application.onCreate` (WorkManager can start the worker before any activity exists).
 - After the app has been updated, the leftover APK and the "update downloaded" notification are removed
